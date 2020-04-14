@@ -7,7 +7,14 @@ module.exports = (sequelize, DataTypes) => {
     role: DataTypes.STRING
   }, {});
   Pessoas.associate = function(models) {
-    // associations can be defined here
+		// Pessoas.hasMany(models.Turmas)
+		// Pessoas.hasMany(models.Matriculas) 
+		// User.belongsTo(UserRole, {as: 'role'});
+		// User.belongsTo(Company, {foreignKey: 'fk_companyname', targetKey: 'name'});
   };
   return Pessoas;
 };
+
+// modeloDeOrigem.hasOne(modeloAlvo) //contém um
+// modeloDeOrigem.hasMany(modeloAlvo) //contém vários
+// modeloAlvo.belongsTo(tabelaDeOrigem) //pertence a
