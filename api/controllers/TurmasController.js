@@ -1,10 +1,10 @@
-import database from '../models'
+import TurmasService from '../services/TurmasService';
  
 class TurmasController {
 
 	static async pegaTodasAsTurmas(req, res) {
 		try {
-			const todasAsTurmas = await database.Turmas.findAll()
+			const todasAsTurmas = await TurmasService.pegaTodasAsTurmas()
 			return res.status(200).json(todasAsTurmas)
 		} catch (error) {
 			return res.status(500).json(error.message);
@@ -14,7 +14,7 @@ class TurmasController {
 	static async pegaUmaTurma(req, res) {
 		const { id } = req.params
 		try {
-			const umaTurma = await database.Turmas.findOne({ where: { id: Number(id) } })
+			const umaTurma = await TurmasService.pegaUmaTurma(id)
 			return res.status(200).json(umaTurma)
 		} catch (error) {
 			return res.status(500).json(error.message);
@@ -24,7 +24,7 @@ class TurmasController {
 	static async criaTurma(req, res) {
 		const novaTurma = req.body;
 		try {
-			const novaTurmaCriada = await database.Turmas.create(novaTurma)
+			const novaTurmaCriada = await TurmasService.criaTurma(novaTurma)
 			return res.status(200).json(novaTurmaCriada)
 		} catch (error) {
 			return res.status(500).json(error.message);
@@ -35,8 +35,8 @@ class TurmasController {
 		const { id } = req.params
 		const novasInfos = req.body;
 		try {
-			await database.Turmas.update(novasInfos, { where: { id: Number(id) } })
-			const turmaAtualizada = await database.Turmas.findOne({ where: { id: Number(id) } })			
+			await TurmasService.atualizaTurma(id, novasInfos)
+			const turmaAtualizada = await TurmasService.pegaUmaTurma(id)			
 			return res.status(200).json(turmaAtualizada)
 		} catch (error) {
 			return res.status(500).json(error.message);
@@ -46,7 +46,7 @@ class TurmasController {
 	static async apagaTurma(req, res) {
 		const { id } = req.params
 		try {
-			await database.Turmas.destroy({ where: { id: Number(id) } })
+			await TurmasService.apagaTurma(id)
 			return res.status(200).json({mensagem: `id ${id} deletado`})
 		} catch (error) {
 			return res.status(500).json(error.message);
