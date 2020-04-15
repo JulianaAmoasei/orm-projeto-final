@@ -36,11 +36,22 @@ class PessoasService {
 		
 	static async apagaPessoa(id) {
 		try {
-      return database.Pessoas.destroy({ where: { id: Number(id) } })
-    } catch (error) {
-      throw error;
-    }
+			return database.sequelize.transaction(async function(t) {
+				await database.Pessoas.destroy({ where: { id: Number(id) }, transaction: t })
+				await database.Matriculas.findAll({ where: { estudante_id: Number(id) }, transaction: t })
+			})
+		} catch (error) {
+			t.rollback()
+			throw error;
+		}
 	}
+	// static async apagaPessoa(id) {
+	// 	try {
+  //     return database.Pessoas.destroy({ where: { id: Number(id) } })
+  //   } catch (error) {
+  //     throw error;
+  //   }
+	// }
 
 }
 

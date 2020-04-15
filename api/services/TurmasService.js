@@ -41,7 +41,6 @@ class TurmasService {
       throw error;
     }
 	}
-
 }
 
 export default TurmasService;
