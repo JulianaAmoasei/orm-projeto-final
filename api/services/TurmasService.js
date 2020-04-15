@@ -1,4 +1,4 @@
-import database from '../models';
+const database = require('../models')
 
 class TurmasService {
 	
@@ -43,4 +43,4 @@ class TurmasService {
 	}
 }
 
-export default TurmasService;
+module.exports = TurmasService;

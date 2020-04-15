@@ -1,13 +1,13 @@
-import { Router } from 'express'
-import PessoasController from '../controllers/PessoasController'
+const { Router } = require('express')
+const PessoaController = require('../controllers/PessoaController')
 
 const router = Router()
  
 router
-	.get('/pessoas', PessoasController.pegaTodasAsPessoas)
-	.get('/pessoas/:id', PessoasController.pegaUmaPessoa)
-	.post('/pessoas', PessoasController.criaPessoa)
-	.put('/pessoas/:id', PessoasController.atualizaPessoa)
-	.delete('/pessoas/:id', PessoasController.apagaPessoa)
+	.get('/pessoas', PessoaController.pegaTodasAsPessoas)
+	.get('/pessoas/:id', PessoaController.pegaUmaPessoa)
+	.post('/pessoas', PessoaController.criaPessoa)
+	.put('/pessoas/:id', PessoaController.atualizaPessoa)
+	.delete('/pessoas/:id', PessoaController.apagaPessoa)
  
-export default router
+module.exports = router

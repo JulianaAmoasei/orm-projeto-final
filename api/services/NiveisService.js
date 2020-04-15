@@ -1,4 +1,4 @@
-import database from '../models';
+const database = require('../models')
 
 class NiveisService {
 	
@@ -44,4 +44,4 @@ class NiveisService {
 
 }
 
-export default NiveisService;
+module.exports = NiveisService;

@@ -1,7 +1,9 @@
-import fs from 'fs'
-import path from 'path'
-import Sequelize from 'sequelize'
-import configJson from '../config/config'
+'use strict';
+
+const fs = require('fs')
+const path = require('path')
+const Sequelize = require('sequelize')
+const configJson = require('../config/config')
 
 const basename = path.basename(__filename);
 const env = 'development';
@@ -34,4 +36,4 @@ Object.keys(db).forEach(modelName => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-export default db
+module.exports = db

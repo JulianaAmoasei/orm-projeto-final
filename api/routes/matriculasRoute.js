@@ -1,13 +1,13 @@
-import { Router } from 'express'
-import MatriculasController from '../controllers/MatriculasController'
+const { Router } = require('express')
+const MatriculaController = require('../controllers/MatriculaController')
 
 const router = Router()
  
 router
-	.get('/matriculas', MatriculasController.pegaTodasAsMatriculas)
-	.get('/matriculas/:id', MatriculasController.pegaUmaMatricula)
-	.post('/matriculas', MatriculasController.criaMatricula)
-	.put('/matriculas/:id', MatriculasController.atualizaMatricula)
-	.delete('/matriculas/:id', MatriculasController.apagaMatricula)
+	.get('/matriculas', MatriculaController.pegaTodasAsMatriculas)
+	.get('/matriculas/:id', MatriculaController.pegaUmaMatricula)
+	.post('/matriculas', MatriculaController.criaMatricula)
+	.put('/matriculas/:id', MatriculaController.atualizaMatricula)
+	.delete('/matriculas/:id', MatriculaController.apagaMatricula)
  
-export default router
+module.exports = router

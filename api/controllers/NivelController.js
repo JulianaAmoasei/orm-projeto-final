@@ -1,10 +1,11 @@
-import NiveisService from '../services/NiveisService';
- 
-class NiveisController {
+const Services = require('../services')
+const nivelService = new Services('Niveis')
+
+class NivelController {
 
 	static async pegaTodosOsNiveis(req, res) {
 		try {
-			const todosOsNiveis = await NiveisService.pegaTodosOsNiveis()
+			const todosOsNiveis = await nivelService.pegaTodosOsRegistros()
 			return res.status(200).json(todosOsNiveis)
 		} catch (error) {
 			return res.status(500).json(error.message);
@@ -14,7 +15,7 @@ class NiveisController {
 	static async pegaUmNivel(req, res) {
 		const { id } = req.params
 		try {
-			const umNivel = await NiveisService.pegaUmNivel(id)
+			const umNivel = await nivelService.pegaUmRegistro(id)
 			return res.status(200).json(umNivel)
 		} catch (error) {
 			return res.status(500).json(error.message);
@@ -24,7 +25,7 @@ class NiveisController {
 	static async criaNivel(req, res) {
 		const novoNivel = req.body;
 		try {
-			const novoNivelCriado = await NiveisService.criaNivel(novoNivel)
+			const novoNivelCriado = await nivelService.criaRegistro(novoNivel)
 			return res.status(200).json(novoNivelCriado)
 		} catch (error) {
 			return res.status(500).json(error.message);
@@ -35,8 +36,7 @@ class NiveisController {
 		const { id } = req.params
 		const novasInfos = req.body;
 		try {
-			await NiveisService.atualizaNivel(id, novasInfos)
-			const nivelAtualizado = await NiveisService.pegaUmNivel(id)			
+			const nivelAtualizado = await nivelService.atualizaRegistro(id, novasInfos)
 			return res.status(200).json(nivelAtualizado)
 		} catch (error) {
 			return res.status(500).json(error.message);
@@ -46,7 +46,7 @@ class NiveisController {
 	static async apagaNivel(req, res) {
 		const { id } = req.params
 		try {
-			await NiveisService.apagaNivel(id)
+			await nivelService.apagaRegistro(id)
 			return res.status(200).json({mensagem: `id ${id} deletado`})
 		} catch (error) {
 			return res.status(500).json(error.message);
@@ -54,4 +54,4 @@ class NiveisController {
 	}
 }
 
-export default NiveisController
+module.exports = NivelController

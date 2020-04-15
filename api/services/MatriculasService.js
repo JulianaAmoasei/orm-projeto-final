@@ -1,4 +1,4 @@
-import database from '../models';
+const database = require('../models')
 
 class MatriculasService {
 	
@@ -44,4 +44,4 @@ class MatriculasService {
 
 }
 
-export default MatriculasService;
+module.exports = MatriculasService;

@@ -1,13 +1,13 @@
-import { Router } from 'express'
-import TurmasController from '../controllers/TurmasController'
+const { Router } = require('express')
+const TurmaController = require('../controllers/TurmaController')
 
 const router = Router()
  
 router
-	.get('/turmas', TurmasController.pegaTodasAsTurmas)
-	.get('/turmas/:id', TurmasController.pegaUmaTurma)
-	.post('/turmas', TurmasController.criaTurma)
-	.put('/turmas/:id', TurmasController.atualizaTurma)
-	.delete('/turmas/:id', TurmasController.apagaTurma)
+	.get('/turmas', TurmaController.pegaTodasAsTurmas)
+	.get('/turmas/:id', TurmaController.pegaUmaTurma)
+	.post('/turmas', TurmaController.criaTurma)
+	.put('/turmas/:id', TurmaController.atualizaTurma)
+	.delete('/turmas/:id', TurmaController.apagaTurma)
  
-export default router
+module.exports = router

@@ -1,13 +1,13 @@
-import { Router } from 'express'
-import NiveisController from '../controllers/NiveisController'
+const { Router } = require('express')
+const NivelController = require('../controllers/NivelController')
 
 const router = Router()
  
 router
-	.get('/niveis', NiveisController.pegaTodosOsNiveis)
-	.get('/niveis/:id', NiveisController.pegaUmNivel)
-	.post('/niveis', NiveisController.criaNivel)
-	.put('/niveis/:id', NiveisController.atualizaNivel)
-	.delete('/niveis/:id', NiveisController.apagaNivel)
+	.get('/niveis', NivelController.pegaTodosOsNiveis)
+	.get('/niveis/:id', NivelController.pegaUmNivel)
+	.post('/niveis', NivelController.criaNivel)
+	.put('/niveis/:id', NivelController.atualizaNivel)
+	.delete('/niveis/:id', NivelController.apagaNivel)
  
-export default router
+module.exports = router

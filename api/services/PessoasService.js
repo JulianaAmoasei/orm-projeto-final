@@ -1,4 +1,4 @@
-import database from '../models';
+const database = require('../models')
 
 class PessoasService {
 	
@@ -36,23 +36,24 @@ class PessoasService {
 		
 	static async apagaPessoa(id) {
 		try {
-			return database.sequelize.transaction(async function(t) {
-				await database.Pessoas.destroy({ where: { id: Number(id) }, transaction: t })
-				await database.Matriculas.findAll({ where: { estudante_id: Number(id) }, transaction: t })
-			})
-		} catch (error) {
-			t.rollback()
-			throw error;
-		}
+      return database.Pessoas.destroy({ where: { id: Number(id) } })
+    } catch (error) {
+      throw error;
+    }
 	}
-	// static async apagaPessoa(id) {
-	// 	try {
-  //     return database.Pessoas.destroy({ where: { id: Number(id) } })
-  //   } catch (error) {
-  //     throw error;
-  //   }
-	// }
 
 }
 
-export default PessoasService;
+module.exports = PessoasService;
+
+// static async apagaPessoa(id) {
+// 	try {
+// 		return database.sequelize.transaction(async function(t) {
+// 			await database.Pessoas.destroy({ where: { id: Number(id) }, transaction: t })
+// 			await database.Matriculas.findAll({ where: { estudante_id: Number(id) }, transaction: t })
+// 		})
+// 	} catch (error) {
+// 		t.rollback()
+// 		throw error;
+// 	}
+// }
