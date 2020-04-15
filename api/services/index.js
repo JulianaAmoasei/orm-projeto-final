@@ -6,9 +6,9 @@ class Service {
   	this.nomeDoModelo = nomeDoModelo
 	}
 	
-	async pegaTodosOsRegistros(dados = {}) {
+	async pegaTodosOsRegistros() {
 		try {
-			return modelos[this.nomeDoModelo].findAll({ where: { ...dados }})
+			return modelos[this.nomeDoModelo].findAll()
 		} catch (error) {
 			throw error
 		}
