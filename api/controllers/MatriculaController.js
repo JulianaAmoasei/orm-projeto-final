@@ -52,6 +52,16 @@ class MatriculaController {
 			return res.status(500).json(error.message);
 		}
 	}
+
+	static async restauraMatricula(req, res) {
+		const { id } = req.params
+		try {
+			const registroRestaurado = await matriculaService.restauraRegistro(id)
+			return res.status(200).json(registroRestaurado)
+		} catch (error) {
+			return res.status(500).json(error.message);
+		}
+	}
 }
 
 module.exports = MatriculaController

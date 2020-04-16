@@ -52,6 +52,16 @@ class PessoaController {
 			return res.status(500).json(error.message);
 		}
 	}
+
+	static async restauraPessoa(req, res) {
+		const { id } = req.params
+		try {
+			const registroRestaurado = await pessoaService.restauraRegistro(id)
+			return res.status(200).json(registroRestaurado)
+		} catch (error) {
+			return res.status(500).json(error.message);
+		}
+	}
 }
 
 module.exports = PessoaController

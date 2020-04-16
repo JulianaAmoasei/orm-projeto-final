@@ -46,6 +46,13 @@ class Service {
     }
 	}
 
+	async restauraRegistro(id) {
+		try {
+			return modelos[this.nomeDoModelo].restore({ where: { id: Number(id) } })
+    } catch (error) {
+      throw error
+    }
+	}
 }
 
 module.exports = Service
