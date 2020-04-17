@@ -6,9 +6,9 @@ class Service {
   	this.nomeDoModelo = nomeDoModelo
 	}
 	
-	async pegaTodosOsRegistros() {
+	async pegaTodosOsRegistros(data) {
 		try {
-			return modelos[this.nomeDoModelo].findAll()
+			return modelos[this.nomeDoModelo].findAll({ where: {...data}})
 		} catch (error) {
 			throw error
 		}
@@ -33,6 +33,14 @@ class Service {
 	async atualizaRegistro(id, dadosAtualizados) {
 		try {
       return modelos[this.nomeDoModelo].update(dadosAtualizados, { where: { id: Number(id) } })
+    } catch (error) {
+      throw error
+    }
+	}
+
+  async atualizaRegistros(where, dadosAtualizados) {
+		try {
+      return modelos[this.nomeDoModelo].update(dadosAtualizados, { where: { ...where } })
     } catch (error) {
       throw error
     }

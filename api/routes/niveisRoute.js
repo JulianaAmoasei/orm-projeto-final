@@ -6,7 +6,7 @@ const router = Router()
 router
 	.get('/niveis', NivelController.pegaTodosOsNiveis)
 	.get('/niveis/:id', NivelController.pegaUmNivel)
-	.get('/niveis/excluidos/:id', NivelController.restauraNivel)
+	.post('/niveis/restaura/:id', NivelController.restauraNivel)
 	.post('/niveis', NivelController.criaNivel)
 	.put('/niveis/:id', NivelController.atualizaNivel)
 	.delete('/niveis/:id', NivelController.apagaNivel)
