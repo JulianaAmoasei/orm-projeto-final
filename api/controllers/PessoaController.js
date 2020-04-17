@@ -1,3 +1,4 @@
+const database = require('../models')
 const Services = require('../services')
 const pessoaService = new Services('Pessoas')
 const matriculaService = new Services('Matriculas')
@@ -57,9 +58,8 @@ class PessoaController {
   static async ativaPessoa(req, res) {
     const { id } = req.params
     try {
-      const estudante = await pessoaService.atualizaRegistro(id, {ativo: true})
-      await matriculaService.atualizaRegistros({estudante_id: id}, {status: 'confirmado'})        
-      return res.status(200).json({message: `matrículas ref. estudante ${estudante.nome} canceladas`})
+      await pessoaService.atualizaRegistro(id, {ativo: true})
+      return res.status(200).json({message: `matrículas ref. estudante id ${id} ativada`})
     } catch (error) {
       return res.status(500).json(error.message)
     }
@@ -68,11 +68,18 @@ class PessoaController {
   static async cancelaPessoa(req, res) {
     const { id } = req.params
     try {
-      const estudante = await pessoaService.atualizaRegistro(id, {ativo: false})
-      await matriculaService.atualizaRegistros({estudante_id: id}, {status: 'cancelado'})        
-      return res.status(200).json({message: `matrículas ref. estudante ${estudante.nome} canceladas`})
-    } catch (error) {
-      return res.status(500).json(error.message)
+      database.sequelize.transaction(async (transacao) => {
+        try {
+          await pessoaService.atualizaRegistro(id, {ativo: false}, transacao)
+          await matriculaService.atualizaRegistros({estudante_id: id}, {status: 'cancelado'}, transacao)        
+          return res.status(200).json({message: `matrículas ref. estudante id ${id} canceladas`})
+        } catch (error) {
+          transacao.rollback()
+          return res.status(500).json(error.message)
+        }
+      })
+    } catch(error){
+      throw error
     }
   }
 
@@ -85,7 +92,33 @@ class PessoaController {
 			return res.status(500).json(error.message)
 		}
 	}
-
 }
 
 module.exports = PessoaController
+
+//REFAÇÃO CÓDIGO ALTERAÇÃO DE STATUS
+
+// const alteraStatusPessoa = async (id, status, ativo) => {
+//   await pessoaService.atualizaRegistro(id, { ativo })
+//   await matriculaService.atualizaRegistros({estudante_id: id}, { status } )
+// }
+
+  // static async ativaPessoa(req, res) {
+  //   const { id } = req.params
+  //   try {
+  //     await alteraStatusPessoa(id, 'confirmado', true)
+  //     return res.status(200).json({message: `matrículas ref. estudante numero ${id} ativadas`})
+  //   } catch (error) {
+  //     return res.status(500).json(error.message)
+  //   }
+  // }
+
+  // static async cancelaPessoa(req, res) {
+  //   const { id } = req.params
+  //   try {
+  //     await alteraStatusPessoa(id, 'cancelado', false)
+  //     return res.status(200).json({message: `matrículas ref. estudante numero ${id} canceladas`})
+  //   } catch (error) {
+  //     return res.status(500).json(error.message)
+  //   }
+  // }
