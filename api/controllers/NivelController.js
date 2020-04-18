@@ -8,7 +8,7 @@ class NivelController {
 			const todosOsNiveis = await nivelService.pegaTodosOsRegistros()
 			return res.status(200).json(todosOsNiveis)
 		} catch (error) {
-			return res.status(500).json(error.message);
+			return res.status(500).json(error.message)
 		}
 	}
 
@@ -18,28 +18,28 @@ class NivelController {
 			const umNivel = await nivelService.pegaUmRegistro(id)
 			return res.status(200).json(umNivel)
 		} catch (error) {
-			return res.status(500).json(error.message);
+			return res.status(500).json(error.message)
 		}
 	}
 
 	static async criaNivel(req, res) {
-		const novoNivel = req.body;
+		const novoNivel = req.body
 		try {
 			const novoNivelCriado = await nivelService.criaRegistro(novoNivel)
 			return res.status(200).json(novoNivelCriado)
 		} catch (error) {
-			return res.status(500).json(error.message);
+			return res.status(500).json(error.message)
 		}
 	}
 	
 	static async atualizaNivel(req, res) {
 		const { id } = req.params
-		const novasInfos = req.body;
+		const novasInfos = req.body
 		try {
 			const nivelAtualizado = await nivelService.atualizaRegistro(id, novasInfos)
 			return res.status(200).json(nivelAtualizado)
 		} catch (error) {
-			return res.status(500).json(error.message);
+			return res.status(500).json(error.message)
 		}
 	}
 
@@ -49,7 +49,7 @@ class NivelController {
 			await nivelService.apagaRegistro(id)
 			return res.status(200).json({mensagem: `id ${id} deletado`})
 		} catch (error) {
-			return res.status(500).json(error.message);
+			return res.status(500).json(error.message)
 		}
 	}
 
@@ -59,7 +59,7 @@ class NivelController {
 			const registroRestaurado = await nivelService.restauraRegistro(id)
 			return res.status(200).json(registroRestaurado)
 		} catch (error) {
-			return res.status(500).json(error.message);
+			return res.status(500).json(error.message)
 		}
 	}
 }

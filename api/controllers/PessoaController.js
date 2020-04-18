@@ -59,7 +59,8 @@ class PessoaController {
     const { id } = req.params
     try {
       await pessoaService.atualizaRegistro(id, {ativo: true})
-      return res.status(200).json({message: `matrículas ref. estudante id ${id} ativada`})
+      return res.status(200)
+        .json({message: `matrículas ref. estudante id ${id} ativada`})
     } catch (error) {
       return res.status(500).json(error.message)
     }
@@ -71,8 +72,16 @@ class PessoaController {
       database.sequelize.transaction(async (transacao) => {
         try {
           await pessoaService.atualizaRegistro(id, {ativo: false}, transacao)
-          await matriculaService.atualizaRegistros({estudante_id: id}, {status: 'cancelado'}, transacao)        
-          return res.status(200).json({message: `matrículas ref. estudante id ${id} canceladas`})
+          await matriculaService
+            .atualizaRegistros({
+              estudante_id: id 
+            }, 
+            { status: 'cancelado' }, 
+            transacao)        
+          return res.status(200)
+            .json({
+              message: `matrículas ref. estudante id ${id} canceladas`
+            })
         } catch (error) {
           transacao.rollback()
           return res.status(500).json(error.message)
@@ -96,43 +105,50 @@ class PessoaController {
   static async pegaTodasAsMatriculas(req, res) {
     const { id } = req.params 
 		try {
-			const todasAsMatriculas = await matriculaService.pegaTodosOsRegistros({ estudante_id: id })
+      const todasAsMatriculas = await matriculaService
+        .pegaTodosOsRegistros({ estudante_id: id })
 			return res.status(200).json(todasAsMatriculas)
 		} catch (error) {
-			return res.status(500).json(error.message);
+			return res.status(500).json(error.message)
 		}
   }
   
   static async pegaUmaMatricula(req, res) {
 		const { id, matriculaId } = req.params
 		try {
-			const umaMatricula = await matriculaService.pegaUmRegistro({id: matriculaId, estudante_id: id})
+      const umaMatricula = await matriculaService
+        .pegaUmRegistro({id: matriculaId, estudante_id: id})
 			return res.status(200).json(umaMatricula)
 		} catch (error) {
       console.log(error)
-			return res.status(500).json(error.message);
+			return res.status(500).json(error.message)
 		}
   }
   
   static async criaMatricula(req, res) {
     const { id } = req.params 
-		const novaMatricula = { ...req.body, estudante_id: id };
+		const novaMatricula = { ...req.body, estudante_id: id }
 		try {
 			const novaMatriculaCriada = await matriculaService.criaRegistro(novaMatricula)
 			return res.status(200).json(novaMatriculaCriada)
 		} catch (error) {
-			return res.status(500).json(error.message);
+			return res.status(500).json(error.message)
 		}
 	}
 	
 	static async atualizaMatricula(req, res) {
 		const { id, matriculaId } = req.params
-		const novasInfos = { ...req.body, id: matriculaId, estudante_id: id };
+		const novasInfos = { ...req.body, id: matriculaId, estudante_id: id }
 		try {
-			const matriculaAtualizada = await matriculaService.atualizaRegistros({ id: matriculaId, estudante_id: id }, novasInfos)
+      const matriculaAtualizada = await matriculaService
+        .atualizaRegistros({ 
+          id: matriculaId, 
+          estudante_id: id 
+        }, 
+        novasInfos)
 			return res.status(200).json(matriculaAtualizada)
 		} catch (error) {
-			return res.status(500).json(error.message);
+			return res.status(500).json(error.message)
 		}
 	}
 
@@ -142,7 +158,7 @@ class PessoaController {
 			await matriculaService.apagaRegistros({ id: matriculaId, estudante_id: id })
 			return res.status(200).json({mensagem: `id ${id} deletado`})
 		} catch (error) {
-			return res.status(500).json(error.message);
+			return res.status(500).json(error.message)
 		}
 	}
 }

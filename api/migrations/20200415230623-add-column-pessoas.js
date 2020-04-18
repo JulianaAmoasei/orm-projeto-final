@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.addColumn('Pessoas', 
@@ -6,9 +6,9 @@ module.exports = {
         allowNull: true,
         type: Sequelize.DATE
       },
-    );
+    )
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.removeColumn('Pessoas', 'deletedAt');
+    return queryInterface.removeColumn('Pessoas', 'deletedAt')
   }
-};
+}
