@@ -17,7 +17,7 @@ class PessoaController {
 	static async pegaUmaPessoa(req, res) {
 		const { id } = req.params
 		try {
-			const umaPessoa = await pessoaService.pegaUmRegistro(id)
+			const umaPessoa = await pessoaService.pegaUmRegistro({ id })
 			return res.status(200).json(umaPessoa)
 		} catch (error) {
 			return res.status(500).json(error.message)
@@ -90,6 +90,59 @@ class PessoaController {
 			return res.status(200).json(registroRestaurado)
 		} catch (error) {
 			return res.status(500).json(error.message)
+		}
+  }
+  
+  static async pegaTodasAsMatriculas(req, res) {
+    const { id } = req.params 
+		try {
+			const todasAsMatriculas = await matriculaService.pegaTodosOsRegistros({ estudante_id: id })
+			return res.status(200).json(todasAsMatriculas)
+		} catch (error) {
+			return res.status(500).json(error.message);
+		}
+  }
+  
+  static async pegaUmaMatricula(req, res) {
+		const { id, matriculaId } = req.params
+		try {
+			const umaMatricula = await matriculaService.pegaUmRegistro({id: matriculaId, estudante_id: id})
+			return res.status(200).json(umaMatricula)
+		} catch (error) {
+      console.log(error)
+			return res.status(500).json(error.message);
+		}
+  }
+  
+  static async criaMatricula(req, res) {
+    const { id } = req.params 
+		const novaMatricula = { ...req.body, estudante_id: id };
+		try {
+			const novaMatriculaCriada = await matriculaService.criaRegistro(novaMatricula)
+			return res.status(200).json(novaMatriculaCriada)
+		} catch (error) {
+			return res.status(500).json(error.message);
+		}
+	}
+	
+	static async atualizaMatricula(req, res) {
+		const { id, matriculaId } = req.params
+		const novasInfos = { ...req.body, id: matriculaId, estudante_id: id };
+		try {
+			const matriculaAtualizada = await matriculaService.atualizaRegistros({ id: matriculaId, estudante_id: id }, novasInfos)
+			return res.status(200).json(matriculaAtualizada)
+		} catch (error) {
+			return res.status(500).json(error.message);
+		}
+	}
+
+	static async apagaMatricula(req, res) {
+    const { id, matriculaId } = req.params
+    try {
+			await matriculaService.apagaRegistros({ id: matriculaId, estudante_id: id })
+			return res.status(200).json({mensagem: `id ${id} deletado`})
+		} catch (error) {
+			return res.status(500).json(error.message);
 		}
 	}
 }

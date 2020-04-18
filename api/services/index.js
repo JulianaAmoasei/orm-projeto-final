@@ -6,17 +6,17 @@ class Service {
   	this.nomeDoModelo = nomeDoModelo
 	}
 	
-	async pegaTodosOsRegistros() {
+	async pegaTodosOsRegistros(where = {}) {
 		try {
-			return modelos[this.nomeDoModelo].findAll()
+			return modelos[this.nomeDoModelo].findAll({where:{...where}})
 		} catch (error) {
 			throw error
 		}
 	}
 
-	async pegaUmRegistro(id) {
+	async pegaUmRegistro(where = {}) {
 		try {
-      return modelos[this.nomeDoModelo].findOne({ where: { id: Number(id) } })
+      return modelos[this.nomeDoModelo].findOne({ where: {...where} })
     } catch (error) {
       throw error
     }
@@ -48,7 +48,15 @@ class Service {
 		
 	async apagaRegistro(id) {
 		try {
-      return modelos[this.nomeDoModelo].destroy({ where: { id: Number(id) } })
+      return modelos[this.nomeDoModelo].destroy({ where: {id: Number(id)} })
+    } catch (error) {
+      throw error
+    }
+	}
+
+  async apagaRegistros(where) {
+		try {
+      return modelos[this.nomeDoModelo].destroy({ where: {...where} })
     } catch (error) {
       throw error
     }
